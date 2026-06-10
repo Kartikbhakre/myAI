@@ -1,23 +1,56 @@
-import logo from './logo.svg';
+
+import { useState } from 'react';
 import './App.css';
+import axios from 'axios';
 
 function App() {
+  const [question, setquestion] = useState('');
+  const [response , setResponse] = useState('');
+
+  const submitHandler = (e)=>{
+  e.preventDefault();
+  console.log(question)
+  axios.post('https://my-api-backend-two.vercel.app/getResponse', {
+  question: question
+})
+.then(res => {
+  console.log(res.data);
+  setResponse(res.data.response);
+  setquestion('');
+})
+.catch(err => {
+  console.log("Full Error:", err);
+
+  if (err.response) {
+    console.log("Backend Error:", err.response.data);
+  }
+});
+  
+  }
+
+  const speakHandler = ()=>{
+    const a = new SpeechSynthesisUtterance(response);
+    window.speechSynthesis.speak(a);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <div className='box'>
+       <div className='profile-pic'>
+          <img  className='pic' alt='profile-pic' src={require('../src/assets/KByte.jpg')}/>
+       </div>
+       <p className='label'>KByte</p>
+       <textarea value={question} onChange={(e)=>{setquestion(e.target.value)}}/>
+       <button onClick={submitHandler} >Send</button>
+     </div >
+     <div className='box'>
+      <div className='profile-pic'>
+          <img  className='pic' alt='profile-pic' src={require('../src/assets/GeminiImg.jpg')}/>
+       </div>
+         <p className='label'>Gemini</p>
+       <textarea  value={response} readOnly />
+       <button onClick={speakHandler}>Speak</button>
+     </div>
     </div>
   );
 }
