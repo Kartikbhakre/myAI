@@ -77,3 +77,35 @@ button:active{
   color:white;
   font-size: 20px;
 }
+
+@media screen and (max-width: 768px) {
+
+  .App{
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    padding: 20px 0;
+  }
+
+  .box{
+    width: 100%;
+    gap: 25px;
+  }
+
+  .profile-pic,
+  .pic{
+    width: 150px;
+    height: 150px;
+  }
+
+  textarea{
+    width: 90%;
+    height: 200px;
+    font-size: 16px;
+  }
+
+  button{
+    width: 90%;
+    font-size: 18px;
+  }
+}
